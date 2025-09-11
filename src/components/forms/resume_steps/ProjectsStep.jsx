@@ -1,8 +1,13 @@
-import React from 'react';
-import { Button } from '../../ui/button';
+import React from "react";
+import { Button } from "../../ui/button";
 
-
-const ProjectsStep = ({ formData, handleInputChange, addProject, removeProject, updateProject }) => {
+const ProjectsStep = ({
+  formData,
+  handleInputChange,
+  addProject,
+  removeProject,
+  updateProject,
+}) => {
   const projects = formData.projects || [];
 
   return (
@@ -25,9 +30,14 @@ const ProjectsStep = ({ formData, handleInputChange, addProject, removeProject, 
         </div>
       ) : (
         projects.map((project, index) => (
-          <div key={project.id || index} className="border border-gray-300 rounded-lg p-4 bg-white mb-6">
+          <div
+            key={project.id || index}
+            className="border border-gray-300 rounded-lg p-4 bg-white mb-6"
+          >
             <div className="flex justify-between items-start mb-4">
-              <h4 className="font-medium text-gray-800">Project #{index + 1}</h4>
+              <h4 className="font-medium text-gray-800">
+                Project #{index + 1}
+              </h4>
               <Button
                 type="button"
                 onClick={() => removeProject(index, handleInputChange)}
@@ -46,8 +56,15 @@ const ProjectsStep = ({ formData, handleInputChange, addProject, removeProject, 
                 </label>
                 <input
                   type="text"
-                  value={project.name || ''}
-                  onChange={(e) => updateProject(index, 'name', e.target.value, handleInputChange)}
+                  value={project.name || ""}
+                  onChange={(e) =>
+                    updateProject(
+                      index,
+                      "name",
+                      e.target.value,
+                      handleInputChange
+                    )
+                  }
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
                   placeholder="e.g., Portfolio Website"
                 />
@@ -59,8 +76,15 @@ const ProjectsStep = ({ formData, handleInputChange, addProject, removeProject, 
                 </label>
                 <input
                   type="text"
-                  value={project.duration || ''}
-                  onChange={(e) => updateProject(index, 'duration', e.target.value, handleInputChange)}
+                  value={project.duration || ""}
+                  onChange={(e) =>
+                    updateProject(
+                      index,
+                      "duration",
+                      e.target.value,
+                      handleInputChange
+                    )
+                  }
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
                   placeholder="e.g., 03/2023 - 05/2023"
                 />
@@ -72,10 +96,19 @@ const ProjectsStep = ({ formData, handleInputChange, addProject, removeProject, 
                 Description (Bullet points via new lines)
               </label>
               <textarea
-                value={Array.isArray(project.description) ? project.description.join('\n') : (project.description || '')}
-                onChange={(e) => updateProject(index, 'description', e.target.value, handleInputChange)}
+                value={project.description || ""}
+                onChange={(e) =>
+                  updateProject(
+                    index,
+                    "description",
+                    e.target.value,
+                    handleInputChange
+                  )
+                }
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                placeholder={"Each line will become a bullet point\nE.g.\n• Developed a responsive user interface\n• Integrated with RESTful APIs"}
+                placeholder={
+                  "Each line will become a bullet point\nE.g.\n• Developed a responsive user interface\n• Integrated with RESTful APIs"
+                }
                 rows={4}
               />
             </div>
@@ -86,8 +119,15 @@ const ProjectsStep = ({ formData, handleInputChange, addProject, removeProject, 
               </label>
               <input
                 type="text"
-                value={project.technologies || ''}
-                onChange={(e) => updateProject(index, 'technologies', e.target.value, handleInputChange)}
+                value={project.technologies || ""}
+                onChange={(e) =>
+                  updateProject(
+                    index,
+                    "technologies",
+                    e.target.value,
+                    handleInputChange
+                  )
+                }
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
                 placeholder="e.g., React, Tailwind CSS, Firebase"
               />

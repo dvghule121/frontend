@@ -1,7 +1,13 @@
-import React from 'react';
-import { Button } from '../../ui/button';
+import React from "react";
+import { Button } from "../../ui/button";
 
-const ExperienceStep = ({ formData, handleInputChange, addExperience, removeExperience, updateExperience }) => {
+const ExperienceStep = ({
+  formData,
+  handleInputChange,
+  addExperience,
+  removeExperience,
+  updateExperience,
+}) => {
   const experiences = formData.experience || [];
 
   return (
@@ -24,9 +30,14 @@ const ExperienceStep = ({ formData, handleInputChange, addExperience, removeExpe
         </div>
       ) : (
         experiences.map((exp, index) => (
-          <div key={exp.id || index} className="border border-gray-300 rounded-lg p-4 mb-6 bg-gray-50">
+          <div
+            key={exp.id || index}
+            className="border border-gray-300 rounded-lg p-4 mb-6 bg-gray-50"
+          >
             <div className="flex justify-between items-start mb-4">
-              <h4 className="font-medium text-gray-800">Experience #{index + 1}</h4>
+              <h4 className="font-medium text-gray-800">
+                Experience #{index + 1}
+              </h4>
               <Button
                 type="button"
                 onClick={() => removeExperience(index, handleInputChange)}
@@ -45,8 +56,15 @@ const ExperienceStep = ({ formData, handleInputChange, addExperience, removeExpe
                 </label>
                 <input
                   type="text"
-                  value={exp.title || ''}
-                  onChange={(e) => updateExperience(index, 'title', e.target.value, handleInputChange)}
+                  value={exp.title || ""}
+                  onChange={(e) =>
+                    updateExperience(
+                      index,
+                      "title",
+                      e.target.value,
+                      handleInputChange
+                    )
+                  }
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 bg-white"
                   placeholder="e.g., Software Engineer"
                 />
@@ -58,8 +76,15 @@ const ExperienceStep = ({ formData, handleInputChange, addExperience, removeExpe
                 </label>
                 <input
                   type="text"
-                  value={exp.company || ''}
-                  onChange={(e) => updateExperience(index, 'company', e.target.value, handleInputChange)}
+                  value={exp.company || ""}
+                  onChange={(e) =>
+                    updateExperience(
+                      index,
+                      "company",
+                      e.target.value,
+                      handleInputChange
+                    )
+                  }
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 bg-white"
                   placeholder="e.g., Example Corp"
                 />
@@ -71,8 +96,15 @@ const ExperienceStep = ({ formData, handleInputChange, addExperience, removeExpe
                 </label>
                 <input
                   type="text"
-                  value={exp.location || ''}
-                  onChange={(e) => updateExperience(index, 'location', e.target.value, handleInputChange)}
+                  value={exp.location || ""}
+                  onChange={(e) =>
+                    updateExperience(
+                      index,
+                      "location",
+                      e.target.value,
+                      handleInputChange
+                    )
+                  }
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 bg-white"
                   placeholder="e.g., San Francisco, CA"
                 />
@@ -84,8 +116,15 @@ const ExperienceStep = ({ formData, handleInputChange, addExperience, removeExpe
                 </label>
                 <input
                   type="text"
-                  value={exp.duration || ''}
-                  onChange={(e) => updateExperience(index, 'duration', e.target.value, handleInputChange)}
+                  value={exp.duration || ""}
+                  onChange={(e) =>
+                    updateExperience(
+                      index,
+                      "duration",
+                      e.target.value,
+                      handleInputChange
+                    )
+                  }
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 bg-white"
                   placeholder="e.g., 01/2020 - 12/2022"
                 />
@@ -97,10 +136,19 @@ const ExperienceStep = ({ formData, handleInputChange, addExperience, removeExpe
                 Job Description (Bullet Points)
               </label>
               <textarea
-                value={Array.isArray(exp.description) ? exp.description.join('\n') : (exp.description || '')}
-                onChange={(e) => updateExperience(index, 'description', e.target.value, handleInputChange)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 bg-white" 
-                placeholder={"Each line will become a bullet point\nE.g.\n• Led team of 4 engineers\n• Shipped feature X improving KPI by 30%"}
+                value={exp.description || ""}
+                onChange={(e) =>
+                  updateExperience(
+                    index,
+                    "description",
+                    e.target.value,
+                    handleInputChange
+                  )
+                }
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 bg-white"
+                placeholder={
+                  "Each line will become a bullet point\nE.g.\n• Led team of 4 engineers\n• Shipped feature X improving KPI by 30%"
+                }
                 rows={5}
               />
             </div>

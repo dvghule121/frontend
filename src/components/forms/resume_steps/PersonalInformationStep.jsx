@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 const PersonalInformationStep = ({ formData, handleInputChange }) => {
   return (
@@ -10,8 +10,8 @@ const PersonalInformationStep = ({ formData, handleInputChange }) => {
           </label>
           <input
             type="text"
-            name="fullName"
-            value={formData.fullName || ''}
+            name="full_name"
+            value={formData.full_name || ""}
             onChange={handleInputChange}
             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             placeholder="e.g., John Doe"
@@ -25,8 +25,8 @@ const PersonalInformationStep = ({ formData, handleInputChange }) => {
           </label>
           <input
             type="text"
-            name="professionalTitle"
-            value={formData.professionalTitle || ''}
+            name="professional_title"
+            value={formData.professional_title || ""}
             onChange={handleInputChange}
             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             placeholder="e.g., Software Engineer"
@@ -41,7 +41,7 @@ const PersonalInformationStep = ({ formData, handleInputChange }) => {
           <input
             type="email"
             name="email"
-            value={formData.email || ''}
+            value={formData.email || ""}
             onChange={handleInputChange}
             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             placeholder="john.doe@example.com"
@@ -56,7 +56,7 @@ const PersonalInformationStep = ({ formData, handleInputChange }) => {
           <input
             type="tel"
             name="phone"
-            value={formData.phone || ''}
+            value={formData.phone || ""}
             onChange={handleInputChange}
             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             placeholder="+1 123-456-7890"
@@ -71,7 +71,7 @@ const PersonalInformationStep = ({ formData, handleInputChange }) => {
           <input
             type="text"
             name="location"
-            value={formData.location || ''}
+            value={formData.location || ""}
             onChange={handleInputChange}
             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             placeholder="e.g., New York, NY, USA"
