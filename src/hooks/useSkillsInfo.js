@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { apiService } from '../services/api';
 import { setSkills } from '../store/slices/profileFormSlice';
@@ -10,13 +10,14 @@ import { useDebounce } from './useDebounce';
  */
 export const useSkillsInfo = () => {
   const dispatch = useDispatch();
-  const skills = useSelector(state => {
-    const skillsData = state.profileForm.resume.skills;
+  const rawSkills = useSelector(state => state.profileForm.resume.skills);
+
+  const skills = useMemo(() => {
     // Skills can be either an array or a string, normalize to array
-    if (Array.isArray(skillsData)) return skillsData;
-    if (typeof skillsData === 'string') return skillsData.split(',').map(s => s.trim()).filter(s => s);
+    if (Array.isArray(rawSkills)) return rawSkills;
+    if (typeof rawSkills === 'string') return rawSkills.split(',').map(s => s.trim()).filter(s => s);
     return [];
-  });
+  }, [rawSkills]);
   
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
