@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import ResumeForm from './forms/ResumeForm';
 import ProfilePreview from './preview/ProfilePreview';
 import { getResumeData } from '../services/api';
-import { setResumeProgress } from '../store/slices/profileFormSlice';
+import { setResumeProgress, updateResume } from '../store/slices/profileFormSlice';
 
 /**
  * ProfileBuilder Component
@@ -31,10 +31,27 @@ const ProfileBuilder = () => {
       const data = await getResumeData();
       if (data) {
         dispatch(setResumeProgress(data.progress));
+        dispatch(updateResume({
+          full_name: data.personal_info.full_name,
+          email: data.personal_info.email,
+          phone: data.personal_info.phone,
+          location: data.personal_info.location,
+          professional_title: data.personal_info.professional_title,
+          experience: data.experiences,
+          education: data.education,
+          skills: data.skills[0]?.skills || "",
+          projects: data.projects,
+        }));
+
+        // Check if all sections are 100% complete
+        const allSectionsComplete = Object.values(data.progress).every(progress => progress === 100);
+        if (allSectionsComplete) {
+          setShowPreviewOnly(true);
+        }
       }
     };
     fetchProgress();
-  }, [resume, dispatch]);
+  }, [dispatch]);
 
   return (
     <div className="h-full flex relative">
