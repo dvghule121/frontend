@@ -43,7 +43,7 @@ export const useProfileInfo = () => {
       let response;
       if (data && data.id) {
         // Update existing
-        response = await apiService.personalInfo.update(profileData);
+        response = await apiService.personalInfo.update(data.id, profileData);
       } else {
         // Create new
         response = await apiService.personalInfo.create(profileData);
