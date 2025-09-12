@@ -74,20 +74,7 @@ const StepForm = ({
 
   const getSectionProgress = (stepId) => {
     if (!resumeProgress) return 0;
-    switch (stepId) {
-      case 1:
-        return resumeProgress.personalInfo;
-      case 2:
-        return resumeProgress.experience;
-      case 3:
-        return resumeProgress.education;
-      case 4:
-        return resumeProgress.skills;
-      case 5:
-        return resumeProgress.projects;
-      default:
-        return 0;
-    }
+    return isStepCompleted(stepId) ? 100 : 0;
   };
 
   return (
@@ -107,20 +94,20 @@ const StepForm = ({
                   }`}
                 onClick={() => handleStepClick(step.id)}
               >
-                <div className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-medium transition-colors ${sectionProgress === 100
-                  ? 'bg-green-500 text-white'
+                <div className={`w-11 h-11 rounded-full flex items-center justify-center text-base font-semibold transition-all duration-200 ease-in-out shadow-md ${sectionProgress === 100
+                  ? 'bg-purple-500 text-white'
                   : isCurrent
-                    ? 'bg-blue-500 text-white'
+                    ? 'bg-blue-600 text-white scale-105'
                     : isAccessible
-                      ? 'bg-gray-200 text-gray-600 hover:bg-gray-300'
+                      ? 'bg-gray-200 text-gray-700 hover:bg-gray-300 hover:shadow-lg'
                       : 'bg-gray-100 text-gray-400'
                   }`}>
                   {sectionProgress === 100 ? '✓' : step.id}
                 </div>
                 <span className={`text-xs mt-2 text-center max-w-20 ${isCurrent
-                  ? 'text-blue-600 font-medium'
+                  ? 'text-blue-700 font-bold'
                   : sectionProgress === 100
-                    ? 'text-green-600'
+                    ? 'text-purple-600'
                     : 'text-gray-500'
                   }`}>
                   {step.title}
@@ -131,7 +118,7 @@ const StepForm = ({
               </div>
 
               {index < steps.length - 1 && (
-                <div className={`flex-1 h-0.5 mx-4 ${getSectionProgress(step.id) === 100 ? 'bg-green-500' : 'bg-gray-200'
+                <div className={`flex-1 h-0.5 mx-4 ${getSectionProgress(step.id) === 100 ? 'bg-purple-500' : 'bg-gray-200'
                   }`} />
               )}
             </React.Fragment>

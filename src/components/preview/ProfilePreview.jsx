@@ -323,9 +323,12 @@ const ProfilePreview = ({ showPreviewOnly = false }) => {
                             .map((it) => it.trim())
                             .filter((it) => hasContent(it));
                           return items.length ? (
-                            <ul className="description list-disc pl-5 text-xs text-gray-700 space-y-0.5">
+                            <ul className="description text-xs text-gray-700 space-y-0.5">
                               {items.map((d, i) => (
-                                <li key={i}>{d}</li>
+                                <li key={i} className="flex items-start">
+                                  <span className="mr-2">•</span>
+                                  <span>{d}</span>
+                                </li>
                               ))}
                             </ul>
                           ) : null;
@@ -374,9 +377,12 @@ const ProfilePreview = ({ showPreviewOnly = false }) => {
                             .map((it) => it.trim())
                             .filter((it) => hasContent(it));
                           return items.length ? (
-                            <ul className="description list-disc pl-5 text-xs text-gray-700 space-y-0.5">
+                            <ul className="description text-xs text-gray-700 space-y-0.5">
                               {items.map((d, i) => (
-                                <li key={i}>{d}</li>
+                                <li key={i} className="flex items-start">
+                                  <span className="mr-2">•</span>
+                                  <span>{d}</span>
+                                </li>
                               ))}
                             </ul>
                           ) : null;
@@ -415,9 +421,12 @@ const ProfilePreview = ({ showPreviewOnly = false }) => {
                             .map((it) => it.trim())
                             .filter((it) => hasContent(it));
                           return items.length ? (
-                            <ul className="description list-disc pl-5 text-xs text-gray-700 space-y-0.5">
+                            <ul className="description text-xs text-gray-700 space-y-0.5">
                               {items.map((d, i) => (
-                                <li key={i}>{d}</li>
+                                <li key={i} className="flex items-start">
+                                  <span className="mr-2">•</span>
+                                  <span>{d}</span>
+                                </li>
                               ))}
                             </ul>
                           ) : null;
