@@ -1,14 +1,11 @@
 import React from "react";
+import { useSelector, useDispatch } from 'react-redux';
 import { Button } from "../../ui/button";
+import { addProject, removeProject, updateProject } from '../../../store/slices/profileFormSlice';
 
-const ProjectsStep = ({
-  formData,
-  handleInputChange,
-  addProject,
-  removeProject,
-  updateProject,
-}) => {
-  const projects = formData.projects || [];
+const ProjectsStep = () => {
+  const dispatch = useDispatch();
+  const projects = useSelector(state => state.profileForm.resume.projects || []);
 
   return (
     <div>
@@ -16,7 +13,7 @@ const ProjectsStep = ({
         <h3 className="text-lg font-semibold text-gray-800">Projects</h3>
         <Button
           type="button"
-          onClick={() => addProject(handleInputChange)}
+          onClick={() => dispatch(addProject())}
           className="bg-indigo-600 hover:bg-indigo-700"
           size="sm"
         >
@@ -40,7 +37,7 @@ const ProjectsStep = ({
               </h4>
               <Button
                 type="button"
-                onClick={() => removeProject(index, handleInputChange)}
+                onClick={() => dispatch(removeProject(index))}
                 variant="outline"
                 size="sm"
                 className="text-red-600 hover:text-red-700"
@@ -58,12 +55,11 @@ const ProjectsStep = ({
                   type="text"
                   value={project.name || ""}
                   onChange={(e) =>
-                    updateProject(
+                    dispatch(updateProject({
                       index,
-                      "name",
-                      e.target.value,
-                      handleInputChange
-                    )
+                      field: "name",
+                      value: e.target.value
+                    }))
                   }
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
                   placeholder="e.g., Portfolio Website"
@@ -78,12 +74,11 @@ const ProjectsStep = ({
                   type="text"
                   value={project.duration || ""}
                   onChange={(e) =>
-                    updateProject(
+                    dispatch(updateProject({
                       index,
-                      "duration",
-                      e.target.value,
-                      handleInputChange
-                    )
+                      field: "duration",
+                      value: e.target.value
+                    }))
                   }
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
                   placeholder="e.g., 03/2023 - 05/2023"
@@ -98,12 +93,11 @@ const ProjectsStep = ({
               <textarea
                 value={project.description || ""}
                 onChange={(e) =>
-                  updateProject(
+                  dispatch(updateProject({
                     index,
-                    "description",
-                    e.target.value,
-                    handleInputChange
-                  )
+                    field: "description",
+                    value: e.target.value
+                  }))
                 }
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
                 placeholder={
@@ -121,12 +115,11 @@ const ProjectsStep = ({
                 type="text"
                 value={project.technologies || ""}
                 onChange={(e) =>
-                  updateProject(
+                  dispatch(updateProject({
                     index,
-                    "technologies",
-                    e.target.value,
-                    handleInputChange
-                  )
+                    field: "technologies",
+                    value: e.target.value
+                  }))
                 }
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
                 placeholder="e.g., React, Tailwind CSS, Firebase"

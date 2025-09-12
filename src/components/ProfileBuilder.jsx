@@ -1,13 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { Button } from './ui/button';
+import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 import ResumeForm from './forms/ResumeForm';
 import ProfilePreview from './preview/ProfilePreview';
-import {
-  setActiveSection,
-  updateResume,
-  checkSectionCompletion
-} from '../store/slices/profileFormSlice';
 
 /**
  * ProfileBuilder Component
@@ -20,28 +14,14 @@ import {
  * - Projects
  * 
  * Features 2-column layout with form on left and live preview on right
+ * Now uses Redux directly - no more redundant state management!
  * 
  * @returns {JSX.Element} The ProfileBuilder component
  */
 const ProfileBuilder = () => {
-  const dispatch = useDispatch();
-  const {
-    resume,
-    completedSections,
-    activeSection
-  } = useSelector(state => state.profileForm);
-
+  // Get resume data from Redux store
+  const resume = useSelector(state => state.profileForm);
   const [showPreviewOnly, setShowPreviewOnly] = useState(false);
-
-  // Check section completion whenever data changes
-  useEffect(() => {
-    dispatch(checkSectionCompletion('resume'));
-  }, [resume, dispatch]);
-
-  // Update handler for resume data
-  const handleResumeUpdate = (data) => {
-    dispatch(updateResume(data));
-  };
 
   return (
     <div className="h-full flex relative">
@@ -63,8 +43,6 @@ const ProfileBuilder = () => {
           {/* Form Content */}
           <div className="flex-1 overflow-y-auto bg-background min-h-0">
             <ResumeForm
-              data={resume}
-              onUpdate={handleResumeUpdate}
               onFinish={() => setShowPreviewOnly(true)}
             />
           </div>

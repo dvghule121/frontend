@@ -1,6 +1,18 @@
 import React from "react";
+import { useSelector, useDispatch } from 'react-redux';
+import { updateResumeField } from '../../../store/slices/profileFormSlice';
 
-const PersonalInformationStep = ({ formData, handleInputChange }) => {
+const PersonalInformationStep = () => {
+  const dispatch = useDispatch();
+  const formData = useSelector(state => state.profileForm.resume);
+
+  console.log(formData)
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    dispatch(updateResumeField({ field: name, value }));
+  };
+
   return (
     <div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

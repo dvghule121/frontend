@@ -1,6 +1,15 @@
 import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { updateResumeField } from '../../../store/slices/profileFormSlice';
 
-const SkillsStep = ({ formData, handleInputChange }) => {
+const SkillsStep = () => {
+  const dispatch = useDispatch();
+  const formData = useSelector(state => state.profileForm.resume);
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    dispatch(updateResumeField({ field: name, value }));
+  };
   return (
     <div
     >

@@ -1,14 +1,11 @@
 import React from "react";
+import { useSelector, useDispatch } from 'react-redux';
 import { Button } from "../../ui/button";
+import { addExperience, removeExperience, updateExperience } from '../../../store/slices/profileFormSlice';
 
-const ExperienceStep = ({
-  formData,
-  handleInputChange,
-  addExperience,
-  removeExperience,
-  updateExperience,
-}) => {
-  const experiences = formData.experience || [];
+const ExperienceStep = () => {
+  const dispatch = useDispatch();
+  const experiences = useSelector(state => state.profileForm.resume.experience || []);
 
   return (
     <div>
@@ -16,7 +13,7 @@ const ExperienceStep = ({
         <h3 className="text-lg font-semibold text-gray-800">Work Experience</h3>
         <Button
           type="button"
-          onClick={() => addExperience(handleInputChange)}
+          onClick={() => dispatch(addExperience())}
           className="bg-purple-600 hover:bg-purple-700"
           size="sm"
         >
@@ -40,7 +37,7 @@ const ExperienceStep = ({
               </h4>
               <Button
                 type="button"
-                onClick={() => removeExperience(index, handleInputChange)}
+                onClick={() => dispatch(removeExperience(index))}
                 variant="outline"
                 size="sm"
                 className="text-red-600 hover:text-red-700"
@@ -58,12 +55,11 @@ const ExperienceStep = ({
                   type="text"
                   value={exp.title || ""}
                   onChange={(e) =>
-                    updateExperience(
+                    dispatch(updateExperience({
                       index,
-                      "title",
-                      e.target.value,
-                      handleInputChange
-                    )
+                      field: "title",
+                      value: e.target.value
+                    }))
                   }
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 bg-white"
                   placeholder="e.g., Software Engineer"
@@ -78,12 +74,11 @@ const ExperienceStep = ({
                   type="text"
                   value={exp.company || ""}
                   onChange={(e) =>
-                    updateExperience(
+                    dispatch(updateExperience({
                       index,
-                      "company",
-                      e.target.value,
-                      handleInputChange
-                    )
+                      field: "company",
+                      value: e.target.value
+                    }))
                   }
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 bg-white"
                   placeholder="e.g., Example Corp"
@@ -98,12 +93,11 @@ const ExperienceStep = ({
                   type="text"
                   value={exp.location || ""}
                   onChange={(e) =>
-                    updateExperience(
+                    dispatch(updateExperience({
                       index,
-                      "location",
-                      e.target.value,
-                      handleInputChange
-                    )
+                      field: "location",
+                      value: e.target.value
+                    }))
                   }
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 bg-white"
                   placeholder="e.g., San Francisco, CA"
@@ -118,12 +112,11 @@ const ExperienceStep = ({
                   type="text"
                   value={exp.duration || ""}
                   onChange={(e) =>
-                    updateExperience(
+                    dispatch(updateExperience({
                       index,
-                      "duration",
-                      e.target.value,
-                      handleInputChange
-                    )
+                      field: "duration",
+                      value: e.target.value
+                    }))
                   }
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 bg-white"
                   placeholder="e.g., 01/2020 - 12/2022"
@@ -138,12 +131,11 @@ const ExperienceStep = ({
               <textarea
                 value={exp.description || ""}
                 onChange={(e) =>
-                  updateExperience(
+                  dispatch(updateExperience({
                     index,
-                    "description",
-                    e.target.value,
-                    handleInputChange
-                  )
+                    field: "description",
+                    value: e.target.value
+                  }))
                 }
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 bg-white"
                 placeholder={

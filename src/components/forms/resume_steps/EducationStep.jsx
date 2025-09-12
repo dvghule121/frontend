@@ -1,14 +1,11 @@
 import React from "react";
+import { useSelector, useDispatch } from 'react-redux';
 import { Button } from "../../ui/button";
+import { addEducation, removeEducation, updateEducation } from '../../../store/slices/profileFormSlice';
 
-const EducationStep = ({
-  formData,
-  handleInputChange,
-  addEducation,
-  removeEducation,
-  updateEducation,
-}) => {
-  const education = formData.education || [];
+const EducationStep = () => {
+  const dispatch = useDispatch();
+  const education = useSelector(state => state.profileForm.resume.education || []);
 
   return (
     <div>
@@ -16,7 +13,7 @@ const EducationStep = ({
         <h3 className="text-lg font-semibold text-gray-800">Education</h3>
         <Button
           type="button"
-          onClick={() => addEducation(handleInputChange)}
+          onClick={() => dispatch(addEducation())}
           className="bg-green-600 hover:bg-green-700"
           size="sm"
         >
@@ -40,7 +37,7 @@ const EducationStep = ({
               </h4>
               <Button
                 type="button"
-                onClick={() => removeEducation(index, handleInputChange)}
+                onClick={() => dispatch(removeEducation(index))}
                 variant="outline"
                 size="sm"
                 className="text-red-600 hover:text-red-700"
@@ -58,12 +55,11 @@ const EducationStep = ({
                   type="text"
                   value={edu.degree || ""}
                   onChange={(e) =>
-                    updateEducation(
+                    dispatch(updateEducation({
                       index,
-                      "degree",
-                      e.target.value,
-                      handleInputChange
-                    )
+                      field: "degree",
+                      value: e.target.value
+                    }))
                   }
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 bg-white"
                   placeholder="e.g., Bachelor of Science in Computer Science"
@@ -78,12 +74,11 @@ const EducationStep = ({
                   type="text"
                   value={edu.institution || ""}
                   onChange={(e) =>
-                    updateEducation(
+                    dispatch(updateEducation({
                       index,
-                      "institution",
-                      e.target.value,
-                      handleInputChange
-                    )
+                      field: "institution",
+                      value: e.target.value
+                    }))
                   }
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 bg-white"
                   placeholder="e.g., University of Example"
@@ -98,12 +93,11 @@ const EducationStep = ({
                   type="text"
                   value={edu.education_duration || ""}
                   onChange={(e) =>
-                    updateEducation(
+                    dispatch(updateEducation({
                       index,
-                      "education_duration",
-                      e.target.value,
-                      handleInputChange
-                    )
+                      field: "education_duration",
+                      value: e.target.value
+                    }))
                   }
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 bg-white"
                   placeholder="e.g., 09/2018 - 05/2022"
@@ -118,12 +112,11 @@ const EducationStep = ({
                   type="text"
                   value={edu.education_location || ""}
                   onChange={(e) =>
-                    updateEducation(
+                    dispatch(updateEducation({
                       index,
-                      "education_location",
-                      e.target.value,
-                      handleInputChange
-                    )
+                      field: "education_location",
+                      value: e.target.value
+                    }))
                   }
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 bg-white"
                   placeholder="e.g., City, State, Country"

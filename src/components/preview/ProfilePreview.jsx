@@ -1,4 +1,5 @@
 import React, { useRef, useEffect, useState } from "react";
+import { useSelector } from 'react-redux';
 import { Button } from "../ui/button";
 import html2pdf from "html2pdf.js";
 
@@ -11,7 +12,8 @@ import html2pdf from "html2pdf.js";
  * @param {Object} props.data - Resume data to display
  * @returns {JSX.Element} The ProfilePreview component
  */
-const ProfilePreview = ({ data = {}, showPreviewOnly = false }) => {
+const ProfilePreview = ({ showPreviewOnly = false }) => {
+  const data = useSelector((state) => state.profileForm.resume);
   const resumeRef = useRef(null);
   const previewContainerRef = useRef(null); // Ref for the container to calculate available space
 

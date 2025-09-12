@@ -13,13 +13,10 @@ import ProjectsStep from "./resume_steps/ProjectsStep";
  * with proper data structures (arrays for experience, skills, projects)
  *
  * @param {Object} props - Component props
- * @param {Object} props.data - Initial form data
- * @param {Function} props.onUpdate - Function to update parent component with form data
+ * @param {Function} props.onFinish - Function called when form is finished
  * @returns {JSX.Element} The ResumeForm component
  */
-const ResumeForm = ({ data = {}, onUpdate, onFinish }) => {
-  // Use data prop directly
-  const formData = data;
+const ResumeForm = ({ onFinish }) => {
 
   // Define steps with their required fields
   const steps = [
@@ -55,162 +52,19 @@ const ResumeForm = ({ data = {}, onUpdate, onFinish }) => {
     },
   ];
 
-  // Helper function to add new experience entry
-  const addExperience = (handleInputChange) => {
-    const currentExperience = formData.experience || [];
-    const newExperience = {
-      id: Date.now(),
-      title: "",
-      company: "",
-      location: "",
-      duration: "",
-      description: "", // store as string
-    };
-    const updatedExperience = [...currentExperience, newExperience];
-    handleInputChange({
-      target: { name: "experience", value: updatedExperience },
-    });
-  };
-
-  // Helper function to remove experience entry
-  const removeExperience = (index, handleInputChange) => {
-    const currentExperience = formData.experience || [];
-    const updatedExperience = currentExperience.filter((_, i) => i !== index);
-    handleInputChange({
-      target: { name: "experience", value: updatedExperience },
-    });
-  };
-
-  // Helper function to update experience entry
-  const updateExperience = (index, field, value, handleInputChange) => {
-    const currentExperience = formData.experience || [];
-    const updatedExperience = [...currentExperience];
-    // Store description as string
-    updatedExperience[index] = {
-      ...updatedExperience[index],
-      [field]: value,
-    };
-    handleInputChange({
-      target: { name: "experience", value: updatedExperience },
-    });
-  };
-
-  // Helper functions for education
-  const addEducation = (handleInputChange) => {
-    const currentEducation = formData.education || [];
-    const newEducation = {
-      id: Date.now(),
-      degree: "",
-      institution: "",
-      education_duration: "",
-      education_location: "",
-      description: "",
-    };
-    const updatedEducation = [...currentEducation, newEducation];
-    handleInputChange({
-      target: { name: "education", value: updatedEducation },
-    });
-  };
-
-  const removeEducation = (index, handleInputChange) => {
-    const currentEducation = formData.education || [];
-    const updatedEducation = currentEducation.filter((_, i) => i !== index);
-    handleInputChange({
-      target: { name: "education", value: updatedEducation },
-    });
-  };
-
-  const updateEducation = (index, field, value, handleInputChange) => {
-    const currentEducation = formData.education || [];
-    const updatedEducation = [...currentEducation];
-    // Store description as string
-    updatedEducation[index] = {
-      ...updatedEducation[index],
-      [field]: value,
-    };
-    handleInputChange({
-      target: { name: "education", value: updatedEducation },
-    });
-  };
-
-  // Helper functions for projects
-  const addProject = (handleInputChange) => {
-    const currentProjects = formData.projects || [];
-    const newProject = {
-      id: Date.now(),
-      name: "",
-      description: "",
-      technologies: "",
-      startDate: "",
-      endDate: "",
-      link: "",
-    };
-    const updatedProjects = [...currentProjects, newProject];
-    handleInputChange({ target: { name: "projects", value: updatedProjects } });
-  };
-
-  const removeProject = (index, handleInputChange) => {
-    const currentProjects = formData.projects || [];
-    const updatedProjects = currentProjects.filter((_, i) => i !== index);
-    handleInputChange({ target: { name: "projects", value: updatedProjects } });
-  };
-
-  const updateProject = (index, field, value, handleInputChange) => {
-    const currentProjects = formData.projects || [];
-    const updatedProjects = [...currentProjects];
-    let nextValue = value;
-    // Store description as string
-    updatedProjects[index] = { ...updatedProjects[index], [field]: nextValue };
-    handleInputChange({ target: { name: "projects", value: updatedProjects } });
-  };
-
-  // Render step content based on current step
-  const renderStep = (stepId, { handleInputChange }) => {
+  // Render step content based on current step - no more prop drilling!
+  const renderStep = (stepId) => {
     switch (stepId) {
       case 1:
-        return (
-          <PersonalInformationStep
-            formData={formData}
-            handleInputChange={handleInputChange}
-          />
-        );
+        return <PersonalInformationStep />;
       case 2:
-        return (
-          <ExperienceStep
-            formData={formData}
-            handleInputChange={handleInputChange}
-            addExperience={addExperience}
-            removeExperience={removeExperience}
-            updateExperience={updateExperience}
-          />
-        );
+        return <ExperienceStep />;
       case 3:
-        return (
-          <EducationStep
-            formData={formData}
-            handleInputChange={handleInputChange}
-            addEducation={addEducation}
-            removeEducation={removeEducation}
-            updateEducation={updateEducation}
-          />
-        );
+        return <EducationStep />;
       case 4:
-        return (
-          <SkillsStep
-            formData={formData}
-            handleInputChange={handleInputChange}
-          />
-        );
+        return <SkillsStep />;
       case 5:
-        return (
-          <ProjectsStep
-            formData={formData}
-            handleInputChange={handleInputChange}
-            addProject={addProject}
-            removeProject={removeProject}
-            updateProject={updateProject}
-          />
-        );
+        return <ProjectsStep />;
       default:
         return null;
     }
@@ -219,8 +73,6 @@ const ResumeForm = ({ data = {}, onUpdate, onFinish }) => {
   return (
     <StepForm
       steps={steps}
-      formData={formData}
-      onUpdate={onUpdate}
       onFinish={onFinish}
       renderStep={renderStep}
     />

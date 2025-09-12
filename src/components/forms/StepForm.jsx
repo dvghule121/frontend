@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 import { Button } from '../ui/button';
 
 /**
@@ -6,63 +7,46 @@ import { Button } from '../ui/button';
  * 
  * A reusable component that provides step-by-step form functionality
  * with progress indicators and conditional rendering.
+ * Now uses Redux directly - no more prop drilling!
  * 
  * @param {Object} props
  * @param {Array} props.steps - Array of step objects with {id, title, description, fields}
- * @param {Object} props.formData - Current form data
- * @param {Function} props.onUpdate - Callback when form data changes
  * @param {Function} props.renderStep - Function to render each step's content
  * @param {string} props.className - Additional CSS classes
+ * @param {Function} props.onFinish - Callback when finishing last step
  * @returns {JSX.Element} The StepForm component
  */
 const StepForm = ({
   steps,
-  formData,
-  onUpdate,
   renderStep,
   className = '',
-  onFinish, // new optional callback when finishing last step
+  onFinish,
 }) => {
+  // Get form data from Redux store
+  const formData = useSelector((state) => state.profileForm.resume);
   const [currentStep, setCurrentStep] = useState(1);
 
-  // Check if a step is completed based on required fields
+  // Simplified step completion check
   const isStepCompleted = (stepId) => {
     const step = steps.find(s => s.id === stepId);
+    if (!step || !step.fields) return true; // If no required fields, consider completed
 
     // Helper function to check if a value has content
     const hasContent = (value) => {
       if (Array.isArray(value)) {
-        // For arrays, check if all elements have content, especially for experience and projects
-        if (value.length === 0) return false;
-        if (stepId === 3 || stepId === 6) { // Assuming step 3 is Experience and step 6 is Projects
-          return value.every(item => {
-            if (stepId === 3) { // Experience
-              const descArray = Array.isArray(item.description) ? item.description : [];
-              return hasContent(item.title) && (descArray.length === 0 || descArray.some(desc => hasContent(desc)));
-            } else if (stepId === 6) { // Projects
-              // Projects description is now a bullet list (array) via newline splitting
-              const descArray = Array.isArray(item.description) ? item.description : [];
-              return hasContent(item.name) && (descArray.length === 0 || descArray.some(desc => hasContent(desc)));
-            }
-            return true; // Fallback for other arrays
-          });
-        }
-        return value.every(item => hasContent(item));
+        return value.length > 0 && value.some(item => {
+          if (typeof item === 'object' && item !== null) {
+            return Object.values(item).some(val => 
+              typeof val === 'string' ? val.trim() !== '' : Boolean(val)
+            );
+          }
+          return typeof item === 'string' ? item.trim() !== '' : Boolean(item);
+        });
       }
       if (typeof value === 'string') return value.trim() !== '';
       if (typeof value === 'object' && value !== null) return Object.keys(value).length > 0;
       return Boolean(value);
     };
-
-    if (!step || !step.fields || step.fields.length === 0) {
-      // If no required fields specified, check if any form data exists for this step
-      // This is a basic completion check - at least one field should have content
-      const stepFields = getStepFields(stepId);
-      return stepFields.some(field => {
-        const value = formData[field];
-        return hasContent(value);
-      });
-    }
 
     return step.fields.every(field => {
       const value = formData[field];
@@ -70,17 +54,7 @@ const StepForm = ({
     });
   };
 
-  // Get fields that belong to a specific step (this should be customized per form)
-  const getStepFields = (stepId) => {
-    // Default field mapping - forms can override this by providing step.fields
-    const fieldMap = {
-      1: Object.keys(formData).slice(0, Math.ceil(Object.keys(formData).length / 4)),
-      2: Object.keys(formData).slice(Math.ceil(Object.keys(formData).length / 4), Math.ceil(Object.keys(formData).length / 2)),
-      3: Object.keys(formData).slice(Math.ceil(Object.keys(formData).length / 2), Math.ceil(3 * Object.keys(formData).length / 4)),
-      4: Object.keys(formData).slice(Math.ceil(3 * Object.keys(formData).length / 4))
-    };
-    return fieldMap[stepId] || [];
-  };
+
 
   // Check if user can access a step
   const canAccessStep = (stepId) => {
@@ -88,12 +62,7 @@ const StepForm = ({
     return isStepCompleted(stepId - 1);
   };
 
-  // Handle input changes
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    const updatedData = { ...formData, [name]: value };
-    onUpdate(updatedData);
-  };
+
 
   // Handle step click from progress indicator
   const handleStepClick = (stepId) => {
@@ -145,11 +114,7 @@ const StepForm = ({
 
       {/* Step Content */}
       <div className="flex-1 overflow-y-auto px-6">
-        {renderStep(currentStep, {
-          formData,
-          handleInputChange,
-          isStepCompleted: () => isStepCompleted(currentStep)
-        })}
+        {renderStep(currentStep)}
       </div>
 
       {/* Navigation Buttons */}
