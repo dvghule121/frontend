@@ -24,6 +24,7 @@ const initialState = {
   },
 
   activeSection: "resume",
+  resumeProgress: null, // Add resumeProgress to the initial state
 };
 
 const profileFormSlice = createSlice({
@@ -48,6 +49,10 @@ const profileFormSlice = createSlice({
       state.completedSections[section] = completed;
     },
 
+    setResumeProgress: (state, action) => { // New action to update resumeProgress
+      state.resumeProgress = action.payload;
+    },
+
     // Experience actions
     addExperience: (state) => {
       const newExperience = {
@@ -62,15 +67,20 @@ const profileFormSlice = createSlice({
     },
 
     removeExperience: (state, action) => {
-      const index = action.payload;
-      state.resume.experience = state.resume.experience.filter((_, i) => i !== index);
+      const id = action.payload;
+      state.resume.experience = state.resume.experience.filter(exp => exp.id !== id);
     },
 
     updateExperience: (state, action) => {
-      const { index, field, value } = action.payload;
-      if (state.resume.experience[index]) {
-        state.resume.experience[index][field] = value;
+      const { id, field, value } = action.payload;
+      const experienceIndex = state.resume.experience.findIndex(exp => exp.id === id);
+      if (experienceIndex !== -1) {
+        state.resume.experience[experienceIndex][field] = value;
       }
+    },
+
+    setExperiences: (state, action) => {
+      state.resume.experience = action.payload || [];
     },
 
     // Education actions
@@ -87,15 +97,20 @@ const profileFormSlice = createSlice({
     },
 
     removeEducation: (state, action) => {
-      const index = action.payload;
-      state.resume.education = state.resume.education.filter((_, i) => i !== index);
+      const id = action.payload;
+      state.resume.education = state.resume.education.filter(edu => edu.id !== id);
     },
 
     updateEducation: (state, action) => {
-      const { index, field, value } = action.payload;
-      if (state.resume.education[index]) {
-        state.resume.education[index][field] = value;
+      const { id, field, value } = action.payload;
+      const educationIndex = state.resume.education.findIndex(edu => edu.id === id);
+      if (educationIndex !== -1) {
+        state.resume.education[educationIndex][field] = value;
       }
+    },
+
+    setEducation: (state, action) => {
+      state.resume.education = action.payload || [];
     },
 
     // Projects actions
@@ -113,15 +128,24 @@ const profileFormSlice = createSlice({
     },
 
     removeProject: (state, action) => {
-      const index = action.payload;
-      state.resume.projects = state.resume.projects.filter((_, i) => i !== index);
+      const id = action.payload;
+      state.resume.projects = state.resume.projects.filter(proj => proj.id !== id);
     },
 
     updateProject: (state, action) => {
-      const { index, field, value } = action.payload;
-      if (state.resume.projects[index]) {
-        state.resume.projects[index][field] = value;
+      const { id, field, value } = action.payload;
+      const projectIndex = state.resume.projects.findIndex(proj => proj.id === id);
+      if (projectIndex !== -1) {
+        state.resume.projects[projectIndex][field] = value;
       }
+    },
+
+    setProjects: (state, action) => {
+      state.resume.projects = action.payload || [];
+    },
+
+    setSkills: (state, action) => {
+      state.resume.skills = action.payload || "";
     },
 
     // Check if resume section has required fields filled
@@ -156,6 +180,7 @@ export const {
   updateResumeField,
   setActiveSection,
   setSectionCompleted,
+  setResumeProgress, // Export the new action
   addExperience,
   removeExperience,
   updateExperience,
@@ -167,6 +192,10 @@ export const {
   updateProject,
   checkSectionCompletion,
   resetForm,
+  setExperiences,
+  setEducation,
+  setProjects,
+  setSkills,
 } = profileFormSlice.actions;
 
 // Export reducer

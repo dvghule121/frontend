@@ -1,7 +1,21 @@
 // API Service for Resume Builder
 // Handles all HTTP requests to the Django backend
 
-const API_BASE_URL = 'http://localhost:8000/api';
+const API_BASE_URL = 'http://127.0.0.1:8000/api';
+
+export const getResumeData = async () => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/resume/`);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error fetching resume data:", error);
+    return null;
+  }
+};
 
 // Helper function to handle API responses
 const handleResponse = async (response) => {
@@ -13,7 +27,21 @@ const handleResponse = async (response) => {
     }
     throw new Error(error.message || `HTTP error! status: ${response.status}`);
   }
-  return response.json();
+  
+  // Handle 204 No Content responses (common for DELETE operations)
+  if (response.status === 204) {
+    return null;
+  }
+  
+  // Check if response has content before parsing JSON
+  const contentType = response.headers.get('content-type');
+  if (contentType && contentType.includes('application/json')) {
+    return response.json();
+  }
+  
+  // For non-JSON responses, return text or null
+  const text = await response.text();
+  return text || null;
 };
 
 // Helper function to make API requests
@@ -106,18 +134,10 @@ export const apiService = {
 
   // Skills
   skills: {
-    getAll: () => apiRequest('/skills/'),
-    get: (id) => apiRequest(`/skills/${id}/`),
-    create: (data) => apiRequest('/skills/', {
-      method: 'POST',
-      body: data,
-    }),
-    update: (id, data) => apiRequest(`/skills/${id}/`, {
+    get: () => apiRequest('/skills/'),
+    update: (data) => apiRequest('/skills/', {
       method: 'PUT',
       body: data,
-    }),
-    delete: (id) => apiRequest(`/skills/${id}/`, {
-      method: 'DELETE',
     }),
   },
 };

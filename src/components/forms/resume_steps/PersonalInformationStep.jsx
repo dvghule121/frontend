@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { updateResumeField } from '../../../store/slices/profileFormSlice';
 import { useProfileInfo } from '../../../hooks/useProfileInfo';
 import { useDebounce } from '../../../hooks/useDebounce';
+import { FaUser, FaBriefcase, FaEnvelope, FaPhone, FaMapMarkerAlt } from 'react-icons/fa';
 
 const PersonalInformationStep = () => {
   const dispatch = useDispatch();
@@ -42,9 +43,11 @@ const PersonalInformationStep = () => {
 
   return (
     <div>
+      <h2 className="text-lg text-foreground mb-6">Personal Information</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label className="block text-sm text-muted-foreground mb-2 flex items-center">
+            <FaUser className="mr-2 text-gray-500" />
             Full Name *
           </label>
           <input
@@ -52,14 +55,15 @@ const PersonalInformationStep = () => {
             name="full_name"
             value={formDataRedux?.full_name || ""}
             onChange={handleInputChange}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full px-4 py-2 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-input text-foreground"
             placeholder="e.g., John Doe"
             required
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label className="block text-sm text-muted-foreground mb-2 flex items-center">
+            <FaBriefcase className="mr-2 text-gray-500" />
             Professional Title *
           </label>
           <input
@@ -67,14 +71,15 @@ const PersonalInformationStep = () => {
             name="professional_title"
             value={formDataRedux?.professional_title || ""}
             onChange={handleInputChange}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full px-4 py-2 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-input text-foreground"
             placeholder="e.g., Software Engineer"
             required
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label className="block text-sm text-muted-foreground mb-2 flex items-center">
+            <FaEnvelope className="mr-2 text-gray-500" />
             Email *
           </label>
           <input
@@ -82,14 +87,15 @@ const PersonalInformationStep = () => {
             name="email"
             value={formDataRedux?.email || ""}
             onChange={handleInputChange}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full px-4 py-2 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-input text-foreground"
             placeholder="john.doe@example.com"
             required
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label className="block text-sm text-muted-foreground mb-2 flex items-center">
+            <FaPhone className="mr-2 text-gray-500" />
             Phone *
           </label>
           <input
@@ -97,14 +103,15 @@ const PersonalInformationStep = () => {
             name="phone"
             value={formDataRedux?.phone || ""}
             onChange={handleInputChange}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full px-4 py-2 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-input text-foreground"
             placeholder="+1 123-456-7890"
             required
           />
         </div>
 
         <div className="md:col-span-2">
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label className="block text-sm text-muted-foreground mb-2 flex items-center">
+            <FaMapMarkerAlt className="mr-2 text-gray-500" />
             Location *
           </label>
           <input
@@ -112,7 +119,7 @@ const PersonalInformationStep = () => {
             name="location"
             value={formDataRedux?.location || ""}
             onChange={handleInputChange}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full px-4 py-2 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-input text-foreground"
             placeholder="e.g., New York, NY, USA"
             required
           />

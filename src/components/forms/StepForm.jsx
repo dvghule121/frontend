@@ -24,6 +24,7 @@ const StepForm = ({
 }) => {
   // Get form data from Redux store
   const formData = useSelector((state) => state.profileForm.resume);
+  const resumeProgress = useSelector((state) => state.profileForm.resumeProgress);
   const [currentStep, setCurrentStep] = useState(1);
 
   // Simplified step completion check
@@ -71,6 +72,24 @@ const StepForm = ({
     }
   };
 
+  const getSectionProgress = (stepId) => {
+    if (!resumeProgress) return 0;
+    switch (stepId) {
+      case 1:
+        return resumeProgress.personalInfo;
+      case 2:
+        return resumeProgress.experience;
+      case 3:
+        return resumeProgress.education;
+      case 4:
+        return resumeProgress.skills;
+      case 5:
+        return resumeProgress.projects;
+      default:
+        return 0;
+    }
+  };
+
   return (
     <div className={`relative h-full flex flex-col  space-y-6 ${className}`}>
       {/* Progress Indicator */}
@@ -79,6 +98,7 @@ const StepForm = ({
           const isCompleted = isStepCompleted(step.id);
           const isCurrent = currentStep === step.id;
           const isAccessible = canAccessStep(step.id);
+          const sectionProgress = getSectionProgress(step.id);
 
           return (
             <React.Fragment key={step.id}>
@@ -87,7 +107,7 @@ const StepForm = ({
                   }`}
                 onClick={() => handleStepClick(step.id)}
               >
-                <div className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-medium transition-colors ${isCompleted
+                <div className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-medium transition-colors ${sectionProgress === 100
                   ? 'bg-green-500 text-white'
                   : isCurrent
                     ? 'bg-blue-500 text-white'
@@ -95,16 +115,23 @@ const StepForm = ({
                       ? 'bg-gray-200 text-gray-600 hover:bg-gray-300'
                       : 'bg-gray-100 text-gray-400'
                   }`}>
-                  {isCompleted ? '✓' : step.id}
+                  {sectionProgress === 100 ? '✓' : step.id}
                 </div>
-                <span className={`text-xs mt-2 text-center max-w-20 ${isCurrent ? 'text-blue-600 font-medium' : 'text-gray-500'
+                <span className={`text-xs mt-2 text-center max-w-20 ${isCurrent
+                  ? 'text-blue-600 font-medium'
+                  : sectionProgress === 100
+                    ? 'text-green-600'
+                    : 'text-gray-500'
                   }`}>
                   {step.title}
                 </span>
+                {sectionProgress > 0 && sectionProgress < 100 && (
+                  <span className="text-xs text-gray-500 mt-1">{sectionProgress}%</span>
+                )}
               </div>
 
               {index < steps.length - 1 && (
-                <div className={`flex-1 h-0.5 mx-4 ${isStepCompleted(step.id) ? 'bg-green-500' : 'bg-gray-200'
+                <div className={`flex-1 h-0.5 mx-4 ${getSectionProgress(step.id) === 100 ? 'bg-green-500' : 'bg-gray-200'
                   }`} />
               )}
             </React.Fragment>
@@ -137,7 +164,8 @@ const StepForm = ({
           onClick={() => {
             if (currentStep < steps.length) {
               setCurrentStep(currentStep + 1);
-            } else {
+            }
+            else {
               if (typeof onFinish === 'function') onFinish();
             }
           }}

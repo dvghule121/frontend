@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import ResumeForm from './forms/ResumeForm';
 import ProfilePreview from './preview/ProfilePreview';
+import { getResumeData } from '../services/api';
+import { setResumeProgress } from '../store/slices/profileFormSlice';
 
 /**
  * ProfileBuilder Component
@@ -21,11 +23,21 @@ import ProfilePreview from './preview/ProfilePreview';
 const ProfileBuilder = () => {
   // Get resume data from Redux store
   const resume = useSelector(state => state.profileForm);
+  const dispatch = useDispatch();
   const [showPreviewOnly, setShowPreviewOnly] = useState(false);
+
+  useEffect(() => {
+    const fetchProgress = async () => {
+      const data = await getResumeData();
+      if (data) {
+        dispatch(setResumeProgress(data.progress));
+      }
+    };
+    fetchProgress();
+  }, [resume, dispatch]);
 
   return (
     <div className="h-full flex relative">
-      {/* Form Section - Left Half */}
       {!showPreviewOnly && (
         <div className="w-2/3 flex flex-col h-full">
           {/* Header */}
