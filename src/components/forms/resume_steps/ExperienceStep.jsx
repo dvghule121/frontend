@@ -172,7 +172,7 @@ const ExperienceStep = () => {
                   className="text-red-600 hover:text-red-700 border-red-600"
                   disabled={saving}
                 >
-                  {saving ? 'Removing...' : 'Remove'}
+                  Remove
                 </Button>
               </div>
 

@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React from 'react';
+import { useSelector } from 'react-redux';
 import ResumeForm from './forms/ResumeForm';
 import ProfilePreview from './preview/ProfilePreview';
-import { getResumeData } from '../services/api';
-import { setResumeProgress, updateResume } from '../store/slices/profileFormSlice';
 import { Loader2 } from "lucide-react";
+import useResumeData from '../hooks/useResumeData';
 
 /**
  * ProfileBuilder Component
@@ -22,48 +21,8 @@ import { Loader2 } from "lucide-react";
  * @returns {JSX.Element} The ProfileBuilder component
  */
 const ProfileBuilder = () => {
-  // Get resume data from Redux store
   const resume = useSelector(state => state.profileForm);
-  const dispatch = useDispatch();
-  const [showPreviewOnly, setShowPreviewOnly] = useState(false);
-  const [isLoading, setIsLoading] = useState(true); // New loading state
-  const [hasError, setHasError] = useState(false); // New error state
-
-  useEffect(() => {
-    const fetchProgress = async () => {
-      try {
-        setIsLoading(true); // Set loading to true before fetching
-        setHasError(false); // Reset error state
-        const data = await getResumeData();
-        if (data) {
-          dispatch(setResumeProgress(data.progress));
-          dispatch(updateResume({
-            full_name: data.personal_info?.full_name || '',
-            email: data.personal_info?.email || '',
-            phone: data.personal_info?.phone || '',
-            location: data.personal_info?.location || '',
-            professional_title: data.personal_info?.professional_title || '',
-            experience: data.experiences,
-            education: data.education,
-            skills: data.skills[0]?.skills || "",
-            projects: data.projects,
-          }));
-
-          // Check if all sections are 100% complete
-          const allSectionsComplete = Object.values(data.progress).every(progress => progress === 100);
-          if (allSectionsComplete) {
-            setShowPreviewOnly(true);
-          }
-        }
-      } catch (error) {
-        console.error("Failed to fetch resume data:", error);
-        setHasError(true); // Set error state if fetching fails
-      } finally {
-        setIsLoading(false); // Set loading to false after fetching (success or failure)
-      }
-    };
-    fetchProgress();
-  }, [dispatch]);
+  const { isLoading, hasError, showPreviewOnly, setShowPreviewOnly } = useResumeData();
 
   return (
     <div className="h-full flex relative">
