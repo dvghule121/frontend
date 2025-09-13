@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { Button } from "../../ui/button";
 import { useProjectsInfo } from '../../../hooks/useProjectsInfo';
 import { FaBriefcase, FaBuilding, FaMapMarkerAlt, FaCalendarAlt, FaClipboardList, FaPlus, FaCodeBranch, FaLink, FaClock, FaLaptopCode } from 'react-icons/fa';
+import SaveIndicator from '../../common/SaveIndicator';
 
 const ProjectsStep = () => {
   const projects = useSelector(state => state.profileForm.resume.projects || []);
@@ -30,6 +31,7 @@ const ProjectsStep = () => {
     <div className="space-y-6">
       <div className="flex justify-between items-center mb-6">
         <h3 className="text-lg text-foreground">Projects</h3>
+        <SaveIndicator isSaving={saving} hasError={error} errorMessage={error}/>
         <Button
           type="button"
           onClick={addProjectEntry}
@@ -42,18 +44,18 @@ const ProjectsStep = () => {
       </div>
 
       {/* Error Message */}
-      {error && (
+      {/* {error && (
         <div className="mb-4 p-3 bg-red-100 border border-red-200 rounded-md text-red-700">
           <p className="text-sm">{error}</p>
         </div>
-      )}
+      )} */}
       
       {/* Auto-save Status */}
-      {saving && (
+      {/* {saving && (
         <div className="mb-4 p-2 bg-blue-100 border border-blue-200 rounded-md text-blue-700">
           <p className="text-sm">Saving changes...</p>
         </div>
-      )}
+      )} */}
 
       {sortedProjects.length === 0 ? (
         <div className="text-center py-8 text-muted-foreground">

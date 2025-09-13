@@ -78,9 +78,9 @@ const StepForm = ({
   };
 
   return (
-    <div className={`relative h-full flex flex-col  space-y-6 ${className}`}>
+    <div className={`relative h-full flex flex-col ${className}`}>
       {/* Progress Indicator */}
-      <div className="flex items-center justify-between mb-4 bg-gray-50 px-6 py-3 border-b ">
+      <div className="flex items-center justify-between bg-gray-50 px-6 py-3 border-b">
         {steps.map((step, index) => {
           const isCompleted = isStepCompleted(step.id);
           const isCurrent = currentStep === step.id;
@@ -127,7 +127,7 @@ const StepForm = ({
       </div>
 
       {/* Step Content */}
-      <div className="flex-1 overflow-y-auto px-6">
+      <div className="flex-1 overflow-y-auto px-6 pt-4">
         {renderStep(currentStep)}
       </div>
 

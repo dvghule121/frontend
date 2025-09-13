@@ -4,11 +4,12 @@ import { updateResumeField } from '../../../store/slices/profileFormSlice';
 import { useProfileInfo } from '../../../hooks/useProfileInfo';
 import { useDebounce } from '../../../hooks/useDebounce';
 import { FaUser, FaBriefcase, FaEnvelope, FaPhone, FaMapMarkerAlt } from 'react-icons/fa';
+import SaveIndicator from '../../common/SaveIndicator';
 
 const PersonalInformationStep = () => {
   const dispatch = useDispatch();
   const formDataRedux = useSelector(state => state.profileForm.resume);
-  const { data: formData, loading, error, saveProfileInfo } = useProfileInfo();
+  const { data: formData, loading, saving, error, saveProfileInfo } = useProfileInfo();
   const isInitialized = useRef(false); // Ref to track if Redux state has been initialized
 
   // Debounce the saveProfileInfo function
@@ -43,7 +44,10 @@ const PersonalInformationStep = () => {
 
   return (
     <div>
-      <h2 className="text-lg text-foreground mb-6">Personal Information</h2>
+      <div className="flex justify-between items-center mb-6">
+        <h2 className="text-lg text-foreground">Personal Information</h2>
+        <SaveIndicator isSaving={saving} hasError={error} errorMessage={error} />
+      </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
           <label className="block text-sm text-muted-foreground mb-2 flex items-center">

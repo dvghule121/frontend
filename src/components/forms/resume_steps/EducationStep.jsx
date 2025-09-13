@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { Button } from "../../ui/button";
 import { useEducationInfo } from '../../../hooks/useEducationInfo';
 import { FaGraduationCap, FaUniversity, FaCalendarAlt, FaMapMarkerAlt, FaClipboardList, FaPlus } from 'react-icons/fa';
+import SaveIndicator from "../../common/SaveIndicator";
 
 const EducationStep = () => {
   const education = useSelector(state => state.profileForm.resume.education || []);
@@ -30,6 +31,7 @@ const EducationStep = () => {
     <div className="space-y-6">
       <div className="flex justify-between items-center mb-6">
         <h3 className="text-lg text-foreground">Education</h3>
+        <SaveIndicator isSaving={saving} hasError={!!error} errorMessage={error} />
         <Button
           type="button"
           onClick={addEducationEntry}
@@ -40,20 +42,6 @@ const EducationStep = () => {
           <FaPlus className="mr-2" /> {loading ? 'Loading...' : 'Add Education'}
         </Button>
       </div>
-
-      {/* Error Message */}
-      {error && (
-        <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-md">
-          <p className="text-sm text-red-600">{error}</p>
-        </div>
-      )}
-      
-      {/* Auto-save Status */}
-      {saving && (
-        <div className="mb-4 p-2 bg-blue-50 border border-blue-200 rounded-md">
-          <p className="text-sm text-blue-600">Saving changes...</p>
-        </div>
-      )}
 
       {sortedEducation.length === 0 ? (
         <div className="text-center py-8 text-gray-500">

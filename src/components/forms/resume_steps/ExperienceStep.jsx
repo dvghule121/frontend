@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { Button } from "../../ui/button";
 import { useExperienceInfo } from '../../../hooks/useExperienceInfo';
 import { FaBriefcase, FaBuilding, FaMapMarkerAlt, FaCalendarAlt, FaClipboardList, FaPlus } from 'react-icons/fa';
+import SaveIndicator from "../../common/SaveIndicator";
 
 const ExperienceStep = () => {
   const {
@@ -131,6 +132,7 @@ const ExperienceStep = () => {
     <div>
       <div className="flex justify-between items-center mb-6">
         <h3 className="text-lg text-foreground">Work Experience</h3>
+        <SaveIndicator isSaving={saving} hasError={!!autoSaveError} errorMessage={autoSaveError} />
         <Button
           type="button"
           onClick={handleAddExperience}
@@ -142,12 +144,6 @@ const ExperienceStep = () => {
           {saving ? 'Adding...' : 'Add Experience'}
         </Button>
       </div>
-
-      {autoSaveError && (
-        <div className="bg-yellow-50 border border-yellow-200 rounded-md p-3 mb-4">
-          <div className="text-yellow-800 text-sm">{autoSaveError}</div>
-        </div>
-      )}
 
       {experiences.length === 0 ? (
         <div className="text-center py-8 text-muted-foreground">
