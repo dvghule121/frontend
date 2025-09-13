@@ -192,12 +192,15 @@ const ProfilePreview = ({ showPreviewOnly = false }) => {
       {/* A4 Page Container with responsive scaling */}
       <div
         ref={previewContainerRef}
-        className="flex-1 flex justify-center items-center overflow-hidden p-4"
+        className="flex-1 flex justify-center items-center p-4"
+        style={{
+          overflow: showPreviewOnly ? "visible" : "hidden",
+        }}
       >
         <div
           style={{
             transform: `scale(${scale})`,
-            transformOrigin: "center center", // Changed from 'top center'
+            transformOrigin: showPreviewOnly ? "top center" : "center center", // Changed from 'top center'
           }}
         >
           <div
@@ -206,7 +209,7 @@ const ProfilePreview = ({ showPreviewOnly = false }) => {
             style={{
               width: pdfDimensions.width,
               height: pdfDimensions.height,
-              overflow: "hidden", // Prevent content overflow to ensure single page
+              overflow: "auto", // Prevent content overflow to ensure single page
             }}
           >
             {/* Header */}
