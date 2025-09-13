@@ -38,11 +38,11 @@ const ProfileBuilder = () => {
         if (data) {
           dispatch(setResumeProgress(data.progress));
           dispatch(updateResume({
-            full_name: data.personal_info.full_name,
-            email: data.personal_info.email,
-            phone: data.personal_info.phone,
-            location: data.personal_info.location,
-            professional_title: data.personal_info.professional_title,
+            full_name: data.personal_info?.full_name || '',
+            email: data.personal_info?.email || '',
+            phone: data.personal_info?.phone || '',
+            location: data.personal_info?.location || '',
+            professional_title: data.personal_info?.professional_title || '',
             experience: data.experiences,
             education: data.education,
             skills: data.skills[0]?.skills || "",

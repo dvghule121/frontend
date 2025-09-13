@@ -12,7 +12,7 @@ const rootRoute = createRootRoute({
       <SidebarProvider>
         <AppSidebar />
         <MainPanel>
-          <div className="p-4 border-b">
+          <div className="p-2 border-b">
             <SidebarTrigger />
           </div>
           <div className="flex-1 overflow-hidden">
