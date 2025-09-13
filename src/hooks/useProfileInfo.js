@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { apiService } from '../services/api';
+import { useDebounce } from './useDebounce';
 
 /**
  * Custom hook for managing personal information
@@ -35,6 +36,8 @@ export const useProfileInfo = () => {
     }
   }, []);
 
+  
+
   // Save personal info (create or update)
   const saveProfileInfo = useCallback(async (profileData) => {
     setSaving(true);
@@ -58,6 +61,15 @@ export const useProfileInfo = () => {
     }
   }, [data]);
 
+   // Debounce the saveProfileInfo function
+  const debouncedSaveProfileInfo = useDebounce(async (profileData) => {
+    try {
+      await saveProfileInfo(profileData);
+    } catch (err) {
+      console.error("Failed to save profile info:", err);
+    }
+  }, 2000);
+
   // Update local data without API call (for real-time updates)
   const updateLocalData = useCallback((updates) => {
     setData(prev => prev ? { ...prev, ...updates } : updates);
@@ -74,6 +86,7 @@ export const useProfileInfo = () => {
     error,
     saving,
     fetchProfileInfo,
+    debouncedSaveProfileInfo,
     saveProfileInfo,
     updateLocalData,
     // Helper to check if data exists

@@ -135,7 +135,7 @@ export const useProjectsInfo = () => {
       console.error('Auto-save failed:', err);
       setError('Auto-save failed. Please try again.');
     }
-  }, 1000);
+  }, 2000);
 
   // Auto-save when project data changes
   const saveProjectField = useCallback((id, field, value) => {

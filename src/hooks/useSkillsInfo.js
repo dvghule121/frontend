@@ -82,7 +82,7 @@ export const useSkillsInfo = () => {
       console.error('Auto-save failed:', err);
       setError('Auto-save failed. Please try again.');
     }
-  }, 1000);
+  }, 2000);
 
   // Save skills field with auto-save functionality
   const saveSkillsField = useCallback((skillsText) => {

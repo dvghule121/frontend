@@ -19,7 +19,7 @@ const SaveIndicator = ({ isSaving, hasError, errorMessage }) => {
       const timer = setTimeout(() => {
         setDisplayStatus(null);
         setDisplayMessage('');
-      }, 3000); // Display "Saved!" for 3 seconds
+      }, 1000); // Display "Saved!" for 1 seconds
       return () => clearTimeout(timer);
     } else if (!isSaving && !hasError && displayStatus === 'error') {
         // Error was cleared, hide after a short delay

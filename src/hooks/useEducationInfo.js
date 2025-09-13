@@ -135,7 +135,7 @@ export const useEducationInfo = () => {
       console.error('Auto-save failed:', err);
       setError('Auto-save failed. Please try again.');
     }
-  }, 1000);
+  }, 2000);
 
   // Auto-save when education data changes
   const saveEducationField = useCallback((id, field, value) => {

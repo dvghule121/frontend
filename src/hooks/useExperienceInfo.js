@@ -110,7 +110,7 @@ export const useExperienceInfo = () => {
       console.error('Auto-save failed:', err);
       setError('Auto-save failed. Please try again.');
     }
-  }, 1000);
+  }, 2000);
 
   // Auto-save when experience data changes
   const saveExperienceField = useCallback((id, field, value) => {

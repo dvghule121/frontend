@@ -2,24 +2,14 @@ import React, { useEffect, useCallback, useRef } from "react";
 import { useSelector, useDispatch } from 'react-redux';
 import { updateResumeField } from '../../../store/slices/profileFormSlice';
 import { useProfileInfo } from '../../../hooks/useProfileInfo';
-import { useDebounce } from '../../../hooks/useDebounce';
 import { FaUser, FaBriefcase, FaEnvelope, FaPhone, FaMapMarkerAlt } from 'react-icons/fa';
 import SaveIndicator from '../../common/SaveIndicator';
 
 const PersonalInformationStep = () => {
   const dispatch = useDispatch();
   const formDataRedux = useSelector(state => state.profileForm.resume);
-  const { data: formData, loading, saving, error, saveProfileInfo } = useProfileInfo();
+  const { data: formData, loading, saving, error, debouncedSaveProfileInfo } = useProfileInfo();
   const isInitialized = useRef(false); // Ref to track if Redux state has been initialized
-
-  // Debounce the saveProfileInfo function
-  const debouncedSaveProfileInfo = useDebounce(async (profileData) => {
-    try {
-      await saveProfileInfo(profileData);
-    } catch (err) {
-      console.error("Failed to save profile info:", err);
-    }
-  }, 1000);
 
   // Initialize Redux state with formData if it exists
   useEffect(() => {
