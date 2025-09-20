@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { getResumeData } from '../services/api';
+import apiService from '../services/api';
 import { setResumeProgress, updateResume } from '../store/slices/profileFormSlice';
 
 const useResumeData = () => {
@@ -14,7 +14,7 @@ const useResumeData = () => {
       try {
         setIsLoading(true);
         setHasError(false);
-        const data = await getResumeData();
+        const data = await apiService.getCompleteResume();
         if (data) {
           dispatch(setResumeProgress(data.progress));
           dispatch(updateResume({
@@ -25,7 +25,8 @@ const useResumeData = () => {
             professional_title: data.personal_info?.professional_title || '',
             experience: data.experiences,
             education: data.education,
-            skills: data.skills[0]?.skills || "",
+            // fix this bullshit
+            skills: data.skills?.skills || "",
             projects: data.projects,
           }));
 

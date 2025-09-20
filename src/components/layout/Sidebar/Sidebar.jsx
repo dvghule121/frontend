@@ -1,6 +1,8 @@
-import { User, Home, ArrowUpCircleIcon } from "lucide-react"
-import { Link, useRouterState } from "@tanstack/react-router"
+import { User, Home, ArrowUpCircleIcon, LogOut } from "lucide-react"
+import { Link, useRouterState, useNavigate } from "@tanstack/react-router"
 import { appData } from "../../../data/data"
+import { useDispatch } from 'react-redux';
+import { logout } from '../../../store/slices/authSlice';
 
 import {
   Sidebar,
@@ -29,6 +31,13 @@ const items = appData.navigation.items.map(item => ({
 export function AppSidebar() {
   const routerState = useRouterState()
   const currentPath = routerState.location.pathname
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    dispatch(logout());
+    navigate({ to: '/login' });
+  };
 
   return (
     <Sidebar>
@@ -65,6 +74,18 @@ export function AppSidebar() {
                   </SidebarMenuItem>
                 )
               })}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+        <SidebarGroup>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              <SidebarMenuItem>
+                <SidebarMenuButton onClick={handleLogout}>
+                  <LogOut />
+                  <span>Logout</span>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>

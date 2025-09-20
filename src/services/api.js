@@ -1,11 +1,13 @@
 // API Service for Resume Builder
 // Handles all HTTP requests to the Django backend
-// const API_BASE_URL = 'http://127.0.0.1:8000/api';
-const API_BASE_URL = 'https://pave-asignment-backned.onrender.com/api';
+const API_BASE_URL = 'http://127.0.0.1:8000/api';
+// const API_BASE_URL = 'https://pave-asignment-backned.onrender.com/api';
 
 export const getResumeData = async () => {
   try {
-    const response = await fetch(`${API_BASE_URL}/resume/`);
+    const response = await apiRequest(`/resume`, {
+      method: 'GET',
+    });
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
@@ -47,9 +49,12 @@ const handleResponse = async (response) => {
 // Helper function to make API requests
 const apiRequest = async (endpoint, options = {}) => {
   const url = `${API_BASE_URL}${endpoint}`;
+  const token = localStorage.getItem('access_token');
+
   const config = {
     headers: {
       'Content-Type': 'application/json',
+      ...(token && { 'Authorization': `Bearer ${token}` }),
       ...options.headers,
     },
     ...options,
@@ -65,6 +70,14 @@ const apiRequest = async (endpoint, options = {}) => {
 
 // API Service Object
 export const apiService = {
+  register: (userData) => apiRequest('/register/', {
+    method: 'POST',
+    body: userData,
+  }),
+  login: (credentials) => apiRequest('/login/', {
+    method: 'POST',
+    body: credentials,
+  }),
   // Complete Resume
   getCompleteResume: () => apiRequest('/resume/'),
 
